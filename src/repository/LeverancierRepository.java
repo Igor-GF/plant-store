@@ -6,25 +6,25 @@ import databaseAccess.DerbyConnection;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class LeverancierRepository extends Repository {
+public class LeverancierRepository implements ParseInterface {
     private static final List<Leverancier> leveranciers = new ArrayList<>();
     private static final String query = "select * from Leveranciers";
 
-    public static void setRepository() {
+    public void setRepository() {
 
         List<String[]> dataSet = DerbyConnection.getRows(query);
 
         if (dataSet != null) {
-            dataSet.forEach(data -> leveranciers.add(mapToModel(data)));
+            dataSet.forEach(rij -> leveranciers.add(mapToModel(rij)));
         }
     }
 
-    public static List<Leverancier> getAlleLeveranciers() {
+    public List<Leverancier> getAlleLeveranciers() {
         if (leveranciers.size() == 0) setRepository();
         return leveranciers;
     }
 
-    public static String getLeverancierNaamByCode(int levCode) {
+    public String getLeverancierNaamByCode(int levCode) {
         if (leveranciers.size() == 0) setRepository();
 
         String levNaam = "";
@@ -38,12 +38,12 @@ public final class LeverancierRepository extends Repository {
         return levNaam;
     }
 
-    private static Leverancier mapToModel(String[] data) {
+    private Leverancier mapToModel(String[] rij) {
         return new Leverancier(
-                parseStringIntoInteger(data[0]),
-                data[1],
-                data[2],
-                data[3]
+                parseStringIntoInteger(rij[0]),
+                rij[1],
+                rij[2],
+                rij[3]
         );
     }
 }

@@ -1,26 +1,29 @@
 package repository;
 
 import databaseAccess.DerbyConnection;
+import enums.BestelStatus;
 import model.Bestelling;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class BestellingRepository extends Repository {
+public class BestellingRepository implements ParseInterface {
 
     private static final List<Bestelling> bestellingen = new ArrayList<>();
     private static final String query = "select * from bestellingen";
 
-    private static void setRepository() {
+    private void setRepository() {
         List<String[]> dataSet = DerbyConnection.getRows(query);
 
         if (dataSet != null) {
             dataSet.forEach(data -> bestellingen.add(mapToModel(data)));
         }
     }
-    public static List<Bestelling> getBestellingenByLevCode(int levCode) {
+    public List<Bestelling> getBestellingenByLevCode(int levCode) {
         if (bestellingen.size() == 0) setRepository();
 
         ArrayList<Bestelling> bestellingenVanLeverancier = new ArrayList<>();
@@ -32,15 +35,14 @@ public final class BestellingRepository extends Repository {
         return bestellingenVanLeverancier.size() > 0 ? bestellingenVanLeverancier : null;
     }
 
-    private static Bestelling mapToModel(String[] rij) {
-
+    private Bestelling mapToModel(String[] rij) {
         return new Bestelling(
                 parseStringIntoInteger(rij[0]),
                 parseStringIntoInteger(rij[1]),
                 parseStringIntoDate(rij[2]),
                 parseStringIntoDate(rij[3]),
                 parseStringIntoDouble(rij[4].replace(",", ".")),
-                parseStringIntoChar(rij[5])
+                BestelStatus.valueOf(rij[5])
         );
     }
 }

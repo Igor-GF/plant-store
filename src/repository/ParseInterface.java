@@ -3,9 +3,9 @@ package repository;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-public abstract class Repository {
+public interface ParseInterface {
 
-    static int parseStringIntoInteger(String s) {
+    default int parseStringIntoInteger(String s) {
         if (s != null) {
             return Integer.parseInt(s);
         } else {
@@ -13,7 +13,7 @@ public abstract class Repository {
         }
     };
 
-    static double parseStringIntoDouble(String s) {
+    default double parseStringIntoDouble(String s) {
         if (s != null) {
             return Double.parseDouble(s);
         } else {
@@ -21,7 +21,7 @@ public abstract class Repository {
         }
     };
 
-    static char parseStringIntoChar(String s) {
+    default char parseStringIntoChar(String s) {
         if (s != null) {
             return s.charAt(0);
         } else {
@@ -29,7 +29,7 @@ public abstract class Repository {
         }
     };
 
-    static LocalDate parseStringIntoDate(String s) {
+    default LocalDate parseStringIntoDate(String s) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
         if (s != null) {

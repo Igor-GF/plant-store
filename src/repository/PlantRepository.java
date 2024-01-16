@@ -1,16 +1,17 @@
 package repository;
 
 import databaseAccess.DerbyConnection;
+import model.Leverancier;
 import model.Plant;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public final class PlantRepository extends Repository {
-    private static ArrayList<Plant> planten = new ArrayList<>();
+public final class PlantRepository implements ParseInterface {
+    private static final ArrayList<Plant> planten = new ArrayList<>();
     private static final String query = "select * from planten";
 
-    private static void setRepository() {
+    private void setRepository() {
         List<String[]> dataSet = DerbyConnection.getRows(query);
 
         if (dataSet != null) {
@@ -18,8 +19,13 @@ public final class PlantRepository extends Repository {
         }
     }
 
-    public static Plant getPlant(int artCode) {
+    public List<Plant> getAllePlanten() {
         if (planten.size() == 0) setRepository();
+        return planten;
+    }
+
+    public Plant getPlant(int artCode) {
+        if (planten.size() == 0) this.setRepository();
 
         for (Plant p: planten) {
             if (p.getArtCode() == artCode) return p;
@@ -27,7 +33,7 @@ public final class PlantRepository extends Repository {
         return null;
     }
 
-    private static Plant mapToModel(String[] rij) {
+    private Plant mapToModel(String[] rij) {
         return new Plant(
                 parseStringIntoInteger(rij[0]),
                 rij[1],

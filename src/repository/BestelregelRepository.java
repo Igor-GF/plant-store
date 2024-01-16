@@ -6,18 +6,18 @@ import model.Bestelregel;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class BestelregelRepository extends Repository {
+public class BestelregelRepository implements ParseInterface {
     private static List<Bestelregel> regels = new ArrayList<>();
     private static final String query = "select * from bestelregels";
 
-    private static void setRepository() {
+    private void setRepository() {
         List<String[]> dataSet = DerbyConnection.getRows(query);
 
         if (dataSet != null) {
             dataSet.forEach(data -> regels.add(mapToModel(data)));
         }
     }
-    public static List<Bestelregel> getRegelsByBestelNr(int bestelNr) {
+    public List<Bestelregel> getRegelsByBestelNr(int bestelNr) {
         if (regels.size() == 0) setRepository();
 
         ArrayList<Bestelregel> regelsVanBestelling = new ArrayList<>();
@@ -29,7 +29,7 @@ public final class BestelregelRepository extends Repository {
         return regelsVanBestelling.size() > 0 ? regelsVanBestelling : null;
     }
 
-    private static Bestelregel mapToModel(String[] rij) {
+    private Bestelregel mapToModel(String[] rij) {
         return new Bestelregel(
                 parseStringIntoInteger(rij[0]),
                 parseStringIntoInteger(rij[1]),
