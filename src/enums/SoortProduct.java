@@ -1,2 +1,6 @@
-package enums;public enum SoortProduct {
+package enums;
+
+public enum SoortProduct {
+    PLANT,
+    TOEBEHOREN
 }

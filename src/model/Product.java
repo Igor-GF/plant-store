@@ -1,5 +1,7 @@
 package model;
 
+import enums.SoortProduct;
+
 public abstract class Product {
     private int artCode;
     private String kleur;
@@ -7,12 +9,15 @@ public abstract class Product {
     private int vrrAantal;
     private int vrrMin;
 
-    public Product(int artCode, String kleur, double prijs, int vrrAantal, int vrrMin) {
+    private SoortProduct product;
+
+    public Product(int artCode, String kleur, double prijs, int vrrAantal, int vrrMin, SoortProduct product) {
         this.setArtCode(artCode);
         this.setKleur(kleur);
         this.setPrijs(prijs);
         this.setVrrAantal(vrrAantal);
         this.setVrrMin(vrrMin);
+        this.setProduct(product);
     }
 
     public int getArtCode() {
@@ -53,5 +58,13 @@ public abstract class Product {
 
     public void setVrrMin(int vrrMin) {
         this.vrrMin = vrrMin;
+    }
+
+    public SoortProduct getProduct() {
+        return product;
+    }
+
+    public void setProduct(SoortProduct product) {
+        this.product = product;
     }
 }

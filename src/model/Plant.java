@@ -1,5 +1,7 @@
 package model;
 
+import enums.SoortProduct;
+
 public class Plant extends Product {
     private String plantenNaam;
     private String soort;
@@ -8,7 +10,7 @@ public class Plant extends Product {
     private int bloeiEind;
 
     public Plant(int artCode, String plantenNaam, String soort, String kleur, int hoogte, int bloeiBeg, int bloeiEind, double prijs, int vrrAantal, int vrrMin) {
-        super(artCode, kleur, prijs, vrrAantal, vrrMin);
+        super(artCode, kleur, prijs, vrrAantal, vrrMin, SoortProduct.PLANT);
         this.setPlantenNaam(plantenNaam);
         this.setSoort(soort);
         this.setHoogte(hoogte);

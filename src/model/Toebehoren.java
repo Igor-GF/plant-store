@@ -1,5 +1,7 @@
 package model;
 
+import enums.SoortProduct;
+
 public class Toebehoren extends Product {
     private String omschrijving; // 		varchar(50) not null,
     private char btwtype; // 			char(1) ,
@@ -10,10 +12,10 @@ public class Toebehoren extends Product {
     private double garantie; 		//	decimal(4,2),
     private String materiaal;		//	varchar(50),
 
-    public Toebehoren(int artCode, String omschrijving, String kleur, char btwtype, String afmeting,
+    public Toebehoren(int artCode, String omschrijving, String kleur, double prijs, char btwtype, String afmeting,
                       double gewicht, String gewicht_eenheid, String verpakking, double garantie,
-                      String materiaal, double prijs, int vrrAantal, int vrrMin) {
-        super(artCode, kleur, prijs, vrrAantal, vrrMin);
+                      String materiaal, int vrrAantal, int vrrMin) {
+        super(artCode, kleur, prijs, vrrAantal, vrrMin, SoortProduct.TOEBEHOREN);
         this.omschrijving = omschrijving;
         this.btwtype = btwtype;
         this.afmeting = afmeting;
