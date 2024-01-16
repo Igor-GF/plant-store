@@ -3,12 +3,14 @@ package view;
 import model.Bestelregel;
 import repository.BestelregelRepository;
 import repository.PlantRepository;
+import repository.ProductRepository;
 
 import java.util.List;
 
-public class BestelregelView {
+public final class BestelregelView {
+    private static final BestelregelRepository repo = new BestelregelRepository();
     public static void toonRegelsVanBestelling(int bestelNr) {
-        List<Bestelregel> bestelregels = BestelregelRepository.getRegelsByBestelNr(bestelNr);
+        List<Bestelregel> bestelregels = repo.getRegelsByBestelNr(bestelNr);
 
         if (bestelregels == null) {
             System.out.println("BESTELLING NUMMER " + bestelNr + " HEEFT GEEN BESTELLINGREGELS.");
@@ -25,17 +27,18 @@ public class BestelregelView {
     }
 
     private static void toonRegel(Bestelregel r) {
+        ProductRepository productRepo = new ProductRepository();
         System.out.printf(
                 "\n%1$-8s  %2$-8d  %3$-12s  %4$8d  %5$8.2f",
                 r.getBestelNr(),
                 r.getArtCode(),
-                PlantRepository.getPlant(r.getArtCode()).getPlantenNaam(),
+                productRepo.getProduct(r.getArtCode()).getProduct(),
                 r.getAantal(),
                 r.getBestelPrijs()
         );
     }
     private static void toonHoofding() {
-        System.out.printf("%1$-8s  %2$-8s  %3$-12s  %4$-8s  %5$-8s", "BESTELNR", "ARTCODE", "PLANTENNAAM", "AANTAL", "PRIJS");
+        System.out.printf("%1$-8s  %2$-8s  %3$-12s  %4$-8s  %5$-8s", "BESTELNR", "ARTCODE", "PRODUCT", "AANTAL", "PRIJS");
         System.out.printf("\n%1$-8s  %2$-8s  %3$-12s  %4$-8s  %5$-8s", "--------", "--------", "--------", "--------", "---------");
     }
 }

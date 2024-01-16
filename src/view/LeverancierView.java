@@ -6,16 +6,16 @@ import repository.LeverancierRepository;
 import java.util.List;
 
 public final class LeverancierView {
-
+    private static final LeverancierRepository repo = new LeverancierRepository();
     public static void toonLeveranciers() {
-        List<Leverancier> alleLeveranciers = LeverancierRepository.getAlleLeveranciers();
+        List<Leverancier> leveranciers = repo.getAlleLeveranciers();
 
         System.out.println();
         System.out.println("OVERZICHT: Lijst van alle leveranciers");
         System.out.println("--------------------------------------");
         toonHoofding();
 
-        for (Leverancier l: alleLeveranciers) {
+        for (Leverancier l: leveranciers) {
             toonLeverancier(l);
         }
     }

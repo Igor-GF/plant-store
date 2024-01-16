@@ -51,12 +51,12 @@ public final class MainMenuView {
                 System.out.println("TYP DE BESTELNUMMER (druk op enter): ");
                 int bestelNr = getKeus();
                 BestelregelView.toonRegelsVanBestelling(bestelNr);
-                volgendeMenu("4 om Plant gegevens te tonen");
+                volgendeMenu("4 om Producten te tonen");
             }
             case 4 -> {
                 System.out.println("TYP DE ART. CODE (druk op enter): ");
                 int artCode = getKeus();
-                PlantView.toonPlant(artCode);
+                ProductView.toonProduct(artCode);
                 volgendeMenu("5 om het programma af te sluiten");
             }
             case 5 -> System.out.println("PROGRAMMA IS BEËINDIGD!");

@@ -4,8 +4,9 @@ import model.Plant;
 import repository.PlantRepository;
 
 public final class PlantView {
+    private static final PlantRepository repo = new PlantRepository();
     public static void toonPlant(int artCode) {
-        Plant plantUitRepo = PlantRepository.getPlant(artCode);
+        Plant plantUitRepo = repo.getPlant(artCode);
 
         if (plantUitRepo == null) {
             System.out.println("ART. CODE " + artCode + " IS NIET GEVONDEN.");
