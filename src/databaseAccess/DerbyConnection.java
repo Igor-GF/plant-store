@@ -1,9 +1,6 @@
 package databaseAccess;
 
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 
 public class DerbyConnection implements Rows {
@@ -39,5 +36,17 @@ public class DerbyConnection implements Rows {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static int update(String queryUpdate, String kolom) {
+        try ( PreparedStatement pstmt = DerbyDataSource.getPreparedStatement(queryUpdate) ) {
+            assert pstmt != null;
+            pstmt.setString(1, kolom);
+            return pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
+        return 0;
     }
 }

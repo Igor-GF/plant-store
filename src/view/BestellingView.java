@@ -26,7 +26,7 @@ public class BestellingView {
         }
     }
 
-    private static void toonBestelling(Bestelling b) {
+    public static void toonBestelling(Bestelling b) {
         LeverancierRepository leverancierRepo = new LeverancierRepository();
         System.out.printf(
                 "\n%1$-8s  %2$-8d  %3$-18s  %4$2td-%4$2tm-%4$4tY   %5$2td-%5$2tm-%5$4tY  %6$10.2f  %7$6s",
@@ -39,7 +39,7 @@ public class BestellingView {
                 b.getStatus()
         );
     }
-    private static void toonHoofding() {
+    public static void toonHoofding() {
         System.out.printf("%1$-8s  %2$-8s  %3$-18s  %4$-10s   %5$-10s  %6$-10s  %7$-6s", "BESTELNR", "LEVCODE", "LEVNAAM", "BESTELDAT", "LEVERDAT", "BEDRAG", "STATUS");
         System.out.printf("\n%1$-8s  %2$-8s  %3$-18s  %4$-10s   %5$-10s  %6$-10s  %7$-6s", "--------", "--------", "----------", "----------", "----------", "----------", "------");
     }

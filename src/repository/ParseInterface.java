@@ -1,5 +1,7 @@
 package repository;
 
+import enums.BestelStatus;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -37,5 +39,16 @@ public interface ParseInterface {
         } else {
             return LocalDate.of(0000, 0, 0);
         }
+    }
+
+    default BestelStatus parseStringIntoBestelStatus(String s) {
+        String st = s.toUpperCase();
+        if (s != null) {
+            for (BestelStatus status : BestelStatus.values()) {
+                if (st.equals(status.name())) return BestelStatus.valueOf(st);
+            }
+        }
+        System.out.println("Ongeldige status: + '" + st + "' \nStatus is automatisch naar 'Open' gezet! \nStatus opties: \nO = open \nB = blocked \nC = closed \n");
+        return BestelStatus.O;
     }
 }

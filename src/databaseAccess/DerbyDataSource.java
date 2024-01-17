@@ -2,10 +2,7 @@ package databaseAccess;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.Properties;
 
 public class DerbyDataSource {
@@ -35,9 +32,18 @@ public class DerbyDataSource {
     public static Statement getStatement() {
         try {
             return getConnection().createStatement();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        catch (SQLException e) { e.printStackTrace(); }
-            return null;
-        }
+        return null;
+    }
 
+    public static PreparedStatement getPreparedStatement(String query) {
+        try {
+            return getConnection().prepareStatement(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

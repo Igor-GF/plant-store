@@ -1,13 +1,7 @@
 package view;
 
-import databaseAccess.DerbyConnection;
-import model.Plant;
 import model.Toebehoren;
-import repository.ParseInterface;
 import repository.ToebehorenRepository;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public final class ToebehorenView {
    private static final ToebehorenRepository repo = new ToebehorenRepository();
