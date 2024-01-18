@@ -38,10 +38,10 @@ public class DerbyConnection implements Rows {
         return null;
     }
 
-    public static int update(String queryUpdate, String kolom) {
+    public static int update(String queryUpdate, String value) {
         try ( PreparedStatement pstmt = DerbyDataSource.getPreparedStatement(queryUpdate) ) {
             assert pstmt != null;
-            pstmt.setString(1, kolom);
+            pstmt.setString(1, value);
             return pstmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
