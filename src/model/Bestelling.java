@@ -1,8 +1,11 @@
 package model;
 
 import enums.BestelStatus;
+import repository.BestelregelRepository;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Bestelling {
     private int bestelNr;
@@ -12,13 +15,16 @@ public class Bestelling {
     private double bedrag;
     private BestelStatus status;
 
-    public Bestelling(int bestelNr, int levCode, LocalDate besteldat, LocalDate leverdat, double bedrag, BestelStatus status) {
+    private final ArrayList<Bestelregel> regels = new ArrayList<>();
+
+    public Bestelling(int bestelNr, int levCode, LocalDate besteldat, LocalDate leverdat, BestelStatus status) {
         setBestelNr(bestelNr);
         setLevCode(levCode);
         setBesteldat(besteldat);
         setLeverdat(leverdat);
-        setBedrag(bedrag);
         setStatus(status);
+        setRegels();
+        calcBedrag();
     }
 
     public int getBestelNr() {
@@ -57,8 +63,10 @@ public class Bestelling {
         return bedrag;
     }
 
-    private void setBedrag(double bedrag) {
-        this.bedrag = bedrag;
+    public void calcBedrag() {
+        this.bedrag = this.regels.stream()
+                .mapToDouble(r -> r.getAantal() * r.getBestelPrijs())
+                .sum();
     }
 
     public BestelStatus getStatus() {
@@ -67,5 +75,18 @@ public class Bestelling {
 
     public void setStatus(BestelStatus status) {
         this.status = status;
+    }
+
+    public ArrayList<Bestelregel> getRegels() {
+        return regels;
+    }
+
+    public void setRegels() {
+        BestelregelRepository regelsRepo = new BestelregelRepository();
+        List<Bestelregel> regelsUitRepo = regelsRepo.getRegelsByBestelNr(this.bestelNr);
+        if (regelsUitRepo.size() > 0) this.regels.addAll(regelsUitRepo);
+    }
+    public void addRegel(Bestelregel regel) {
+        this.regels.add(regel);
     }
 }

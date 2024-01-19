@@ -1,6 +1,5 @@
 package view;
 
-import model.Bestelling;
 import repository.BestellingRepository;
 import repository.BestelregelRepository;
 
@@ -14,11 +13,10 @@ public final class MainMenuView {
         System.out.print("\n=======================================================");
         System.out.printf("\n%1$-15s %2$-20s %3$16s", "|", "WELKOM BIJ PLANTENLUST", "|");
         System.out.print("\n=======================================================");
-        System.out.print("\nTyp 1 om alle LEVERANCIERS te tonen (druk dan op ENTER): ");
+        System.out.println();
+//        System.out.print("\nTyp 1 om alle LEVERANCIERS te tonen (druk dan op ENTER): ");
 
-        int keuze = getKeus();
-
-        controleerKeuze(keuze);
+        controleerKeuze(1);
     }
 
     private static void keuzeMenu(String volgendeOptie) {
@@ -27,11 +25,8 @@ public final class MainMenuView {
 
         int keuze = getKeus();
 
-        if (keuze == 1) {
-            toonMainMenu();
-        } else {
+        if (keuze > 1)
             controleerKeuze(keuze);
-        }
     }
 
     private static int getKeus() {
@@ -69,8 +64,7 @@ public final class MainMenuView {
                 System.out.print("\nTYP DE NIEUWE STATUS: ");
                 String status = getStatusInvoer();
                 BestellingRepository repo = new BestellingRepository();
-                repo.updateBestelStatusByNr(bestelNr, status);
-                Bestelling b = repo.getBestelling(bestelNr);
+                repo.updateStatus(bestelNr, status);
                 BestellingView.toonBestellingenVanLeverancier(state);
                 keuzeMenu("-> Typ 3 om Bestelregels van een Bestelling te tonen. \n-> Typ 33 om een Bestellingsstatus aan te passen.");
             }
@@ -85,7 +79,7 @@ public final class MainMenuView {
                 System.out.print("\nPAS HET AANTAL AAN: ");
                 int aantal = getKeus();
                 BestelregelRepository repo = new BestelregelRepository();
-                repo.updateRegelAantalBy(state, artCode, aantal);
+                repo.updateAantal(state, artCode, aantal);
                 BestelregelView.toonRegelsVanBestelling(state);
                 keuzeMenu("-> Typ 4 om een Product te tonen.\n-> Typ 44 om het aantal aan te passen.");
             }

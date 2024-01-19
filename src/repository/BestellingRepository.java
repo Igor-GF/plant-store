@@ -7,55 +7,62 @@ import model.Bestelling;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BestellingRepository implements ParseInterface {
+public class BestellingRepository extends Repository<Bestelling> {
 
-    private static final List<Bestelling> bestellingen = new ArrayList<>();
     private static final String query = "select * from bestellingen";
-    private static final String queryUpdate = "UPDATE bestellingen SET status= ? WHERE bestelnr= ";
 
-    private void setRepository() {
-        List<String[]> dataSet = DerbyConnection.getRows(query);
+    {setRepository();}
 
-        if (dataSet != null) {
-            dataSet.forEach(data -> bestellingen.add(mapToModel(data)));
-        }
+    public void setRepository() {
+        if(this.lijst.size() != 0) this.lijst.clear();
+        ArrayList<Bestelling> list = setList(query);
+        this.lijst.addAll(list);
     }
-    public List<Bestelling> getBestellingenByLevCode(int levCode) {
-        if (bestellingen.size() == 0) setRepository();
 
+    public List<Bestelling> getBestellingenByLevCode(int levCode) {
         ArrayList<Bestelling> bestellingenVanLeverancier = new ArrayList<>();
 
-        for (Bestelling b: bestellingen) {
+        setRepository();
+        for (Bestelling b: this.lijst) {
             if (levCode == b.getLevCode()) bestellingenVanLeverancier.add(b);
         }
-
         return bestellingenVanLeverancier.size() > 0 ? bestellingenVanLeverancier : null;
     }
 
     public Bestelling getBestelling(int bestelNr) {
-        if (bestellingen.size() == 0) setRepository();
-        return bestellingen.stream()
+        setRepository();
+        return this.lijst.stream()
                 .filter(b -> b.getBestelNr() == bestelNr)
                 .findFirst()
                 .orElse(null);
     }
 
-    public void updateBestelStatusByNr(int bestelNr, String status) {
+    public void updateStatus(int bestelNr, String status) {
+        String queryUpdate = "UPDATE bestellingen SET status= ? WHERE bestelnr= ";
         BestelStatus bestelStatus = parseStringIntoBestelStatus(status);
         if (DerbyConnection.update(queryUpdate + bestelNr, bestelStatus.name()) > 0) {
-            bestellingen.clear();
             setRepository(); // sets de repo met de nieuwe update uit de DB
-            getBestelling(bestelNr);
         }
     }
 
-    private Bestelling mapToModel(String[] rij) {
+    public void updateBedrag(int bestelNr) {
+        String queryUpdate = "UPDATE bestellingen SET bedrag= ? WHERE bestelnr= ";
+        Bestelling bestelling = getBestelling(bestelNr);
+        bestelling.calcBedrag();
+        int update = DerbyConnection.update(queryUpdate + bestelNr, String.valueOf(bestelling.getBedrag()));
+        System.out.println(update);
+        if (DerbyConnection.update(queryUpdate + bestelNr, String.valueOf(bestelling.getBedrag())) > 0) {
+            setRepository(); // sets de repo met de nieuwe update uit de DB
+        }
+    }
+
+    public Bestelling mapToModel(String[] rij) {
         return new Bestelling(
                 parseStringIntoInteger(rij[0]),
                 parseStringIntoInteger(rij[1]),
                 parseStringIntoDate(rij[2]),
                 parseStringIntoDate(rij[3]),
-                parseStringIntoDouble(rij[4].replace(",", ".")),
+//                parseStringIntoDouble(rij[4].replace(",", ".")),
                 parseStringIntoBestelStatus(rij[5])
         );
     }

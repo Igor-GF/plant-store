@@ -12,8 +12,8 @@ public class ProductRepository {
     private static final ArrayList<Product> producten = new ArrayList<>();
 
     public void setRepository() {
-        List<Plant> planten = new PlantRepository().getAllePlanten();
-        List<Toebehoren> toebehorenLijst = new ToebehorenRepository().getAlleToebehoren();
+        List<Plant> planten = new PlantRepository().getAll();
+        List<Toebehoren> toebehorenLijst = new ToebehorenRepository().getAll();
         List<Product> lijst = new ArrayList<>();
 
         lijst.addAll(planten);

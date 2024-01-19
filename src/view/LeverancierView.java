@@ -8,7 +8,7 @@ import java.util.List;
 public final class LeverancierView {
     private static final LeverancierRepository repo = new LeverancierRepository();
     public static void toonLeveranciers() {
-        List<Leverancier> leveranciers = repo.getAlleLeveranciers();
+        List<Leverancier> leveranciers = repo.getAll();
 
         System.out.println();
         System.out.println("OVERZICHT: Lijst van alle leveranciers");

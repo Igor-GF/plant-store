@@ -1,39 +1,28 @@
 package repository;
 
-import databaseAccess.DerbyConnection;
-import model.Leverancier;
 import model.Toebehoren;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public final class ToebehorenRepository implements ParseInterface {
-    private static final ArrayList<Toebehoren> toebehorenLijst = new ArrayList<>();
+public final class ToebehorenRepository extends Repository<Toebehoren> {
     private static final String query = "select * from toebehoren";
 
-    private void setRepository() {
-        List<String[]> dataSet = DerbyConnection.getRows(query);
-
-        if (dataSet != null) {
-            dataSet.forEach(data -> toebehorenLijst.add(mapToModel(data)));
-        }
-    }
-
-    public List<Toebehoren> getAlleToebehoren() {
-        if (toebehorenLijst.size() == 0) setRepository();
-        return toebehorenLijst;
+    public void setRepository() {
+        if(this.lijst.size() != 0) this.lijst.clear();
+        ArrayList<Toebehoren> list = setList(query);
+        this.lijst.addAll(list);
     }
 
     public Toebehoren getToebehoren(int artCode) {
-        if (toebehorenLijst.size() == 0) setRepository();
+        if (this.lijst.size() == 0) setRepository();
 
-        for (Toebehoren t: toebehorenLijst) {
+        for (Toebehoren t: this.lijst) {
             if (t.getArtCode() == artCode) return t;
         }
         return null;
     }
 
-    private Toebehoren mapToModel(String[] rij) {
+    public Toebehoren mapToModel(String[] rij) {
         return new Toebehoren(
                 parseStringIntoInteger(rij[0]),
                 rij[1],

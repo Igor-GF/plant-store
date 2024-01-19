@@ -7,8 +7,8 @@ import repository.LeverancierRepository;
 import java.util.List;
 
 public class BestellingView {
-
     private static final BestellingRepository repo = new BestellingRepository();
+
     public static void toonBestellingenVanLeverancier(int levCode) {
         List<Bestelling> bestellingen = repo.getBestellingenByLevCode(levCode);
 

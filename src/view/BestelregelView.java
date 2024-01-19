@@ -9,6 +9,7 @@ import java.util.List;
 
 public final class BestelregelView {
     private static final BestelregelRepository repo = new BestelregelRepository();
+
     public static void toonRegelsVanBestelling(int bestelNr) {
         List<Bestelregel> bestelregels = repo.getRegelsByBestelNr(bestelNr);
 
