@@ -32,9 +32,9 @@ public class BestellingRepository extends Repository<Bestelling> {
     public Bestelling getBestelling(int bestelNr) {
         setRepository();
         return this.lijst.stream()
-                .filter(b -> b.getBestelNr() == bestelNr)
-                .findFirst()
-                .orElse(null);
+                        .filter(b -> b.getBestelNr() == bestelNr)
+                        .findFirst()
+                        .orElse(null);
     }
 
     public void updateStatus(int bestelNr, String status) {

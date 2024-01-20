@@ -9,6 +9,8 @@ import java.util.List;
 public class BestelregelRepository extends Repository<Bestelregel> {
     private static final String query = "select * from bestelregels";
 
+    { setRepository(); }
+
     public void setRepository() {
         if(this.lijst.size() != 0) this.lijst.clear();
         ArrayList<Bestelregel> list = setList(query);
