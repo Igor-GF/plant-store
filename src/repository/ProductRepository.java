@@ -11,6 +11,8 @@ import java.util.List;
 public class ProductRepository {
     private static final ArrayList<Product> producten = new ArrayList<>();
 
+    { setRepository(); }
+
     public void setRepository() {
         List<Plant> planten = new PlantRepository().getAll();
         List<Toebehoren> toebehorenLijst = new ToebehorenRepository().getAll();

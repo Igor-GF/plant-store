@@ -5,6 +5,7 @@ import model.Leverancier;
 import java.util.ArrayList;
 
 public class LeverancierRepository extends Repository<Leverancier> {
+
     private static final String query = "select * from Leveranciers";
 
     public void setRepository() {

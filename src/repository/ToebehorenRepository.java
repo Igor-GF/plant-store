@@ -5,6 +5,7 @@ import model.Toebehoren;
 import java.util.ArrayList;
 
 public final class ToebehorenRepository extends Repository<Toebehoren> {
+
     private static final String query = "select * from toebehoren";
 
     public void setRepository() {

@@ -11,8 +11,6 @@ public class BestellingRepository extends Repository<Bestelling> {
 
     private static final String query = "select * from bestellingen";
 
-    {setRepository();}
-
     public void setRepository() {
         if(this.lijst.size() != 0) this.lijst.clear();
         ArrayList<Bestelling> list = setList(query);
@@ -62,7 +60,6 @@ public class BestellingRepository extends Repository<Bestelling> {
                 parseStringIntoInteger(rij[1]),
                 parseStringIntoDate(rij[2]),
                 parseStringIntoDate(rij[3]),
-//                parseStringIntoDouble(rij[4].replace(",", ".")),
                 parseStringIntoBestelStatus(rij[5])
         );
     }

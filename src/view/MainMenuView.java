@@ -7,34 +7,56 @@ import java.util.Scanner;
 
 public final class MainMenuView {
 
-    private static int state;
+    private static int stateMenu = 1;
+    private static int state = 1;
 
     public static void toonMainMenu() {
         System.out.print("\n=======================================================");
         System.out.printf("\n%1$-15s %2$-20s %3$16s", "|", "WELKOM BIJ PLANTENLUST", "|");
         System.out.print("\n=======================================================");
         System.out.println();
-//        System.out.print("\nTyp 1 om alle LEVERANCIERS te tonen (druk dan op ENTER): ");
 
         controleerKeuze(1);
     }
 
-    private static void keuzeMenu(String volgendeOptie) {
+    private static void keuzeMenu(int keuze) {
         System.out.print("\n=======================================================");
-        System.out.println("\n-> Typ 1 om de Leverancierslijst weer te tonen. \n" + volgendeOptie);
 
-        int keuze = getKeus();
-
-        if (keuze > 1)
-            controleerKeuze(keuze);
+        stateMenu = keuze;
+        switch (keuze) {
+            case 1 -> System.out.print("\nTyp 2 -> Bestellingen van een Leverancier.");
+            case 2 -> System.out.print("\nTyp 3 -> Bestelregels van een Bestelling.\nTyp 33 -> Bestellingsstatus aanpassen.");
+            case 3 -> System.out.print("\nTyp 4 -> Product te tonen.\nTyp 44 -> Aantal aanpassen.");
+            case 33 -> System.out.print("\nTyp 3 -> Bestelregels van een Bestelling. \nTyp 33 -> Bestellingsstatus aanpassen.");
+            case 4 -> System.out.print("\nTyp 0 -> Het programma afsluiten.");
+            case 44 -> System.out.print("\nTyp 4 -> Product te tonen.\nTyp 44 -> Het aantal aanpassen.");
+        }
+        if (keuze != 1) System.out.print("\nTyp 1 -> Terug naar Leverancierslijst.");
+        System.out.print("\n-> ");
+        controleerKeuze(getKeus());
     }
 
     private static int getKeus() {
         Scanner sc = new Scanner(System.in);
-        return Integer.parseInt(sc.nextLine());
+        try {
+            return Integer.parseInt(sc.nextLine());
+        } catch (NumberFormatException e) {
+            System.out.printf(e.getMessage() + " terug naar Leveranciers ... \n");
+        }
+        return stateMenu;
     }
 
-    private static String getStatusInvoer() {
+    private static int getInt() {
+        Scanner sc = new Scanner(System.in);
+        try {
+            return Integer.parseInt(sc.nextLine());
+        } catch (NumberFormatException e) {
+            System.out.printf(e.getMessage());
+        }
+        return state;
+    }
+
+    private static String getText() {
         Scanner sc = new Scanner(System.in);
         return sc.nextLine();
     }
@@ -42,48 +64,48 @@ public final class MainMenuView {
     private static void controleerKeuze(int keuze) {
 
         switch (keuze) {
+            case 0 -> System.out.println("\nPROGRAMMA IS BEËINDIGD!");
             case 1 -> {
                 LeverancierView.toonLeveranciers();
-                keuzeMenu("-> Typ 2 om de Bestellingen van een Leverancier te tonen.");
+                keuzeMenu(keuze);
             }
             case 2 -> {
                 System.out.print("\nTYP DE LEVERANCIER CODE (druk op enter): ");
-                state = getKeus();
+                state = getInt();
                 BestellingView.toonBestellingenVanLeverancier(state);
-                keuzeMenu("-> Typ 3 om Bestelregels van een Bestelling te tonen. \n-> Typ 33 om een Bestellingsstatus aan te passen.");
+                keuzeMenu(keuze);
             }
             case 3 -> {
                 System.out.print("\nTYP DE BESTELNUMMER (druk op enter): ");
-                state = getKeus();
+                state = getInt();
                 BestelregelView.toonRegelsVanBestelling(state);
-                keuzeMenu("-> Typ 4 om een Product te tonen.\n-> Typ 44 om het aantal aan te passen.");
+                keuzeMenu(keuze);
             }
             case 33 -> {
                 System.out.print("\nTYP DE BESTELNUMMER (druk op enter): ");
-                int bestelNr = getKeus();
+                int bestelNr = getInt();
                 System.out.print("\nTYP DE NIEUWE STATUS: ");
-                String status = getStatusInvoer();
+                String status = getText();
                 BestellingRepository repo = new BestellingRepository();
                 repo.updateStatus(bestelNr, status);
                 BestellingView.toonBestellingenVanLeverancier(state);
-                keuzeMenu("-> Typ 3 om Bestelregels van een Bestelling te tonen. \n-> Typ 33 om een Bestellingsstatus aan te passen.");
+                keuzeMenu(keuze);
             }
             case 4 -> {
                 System.out.println("\nTYP DE ART. CODE (druk op enter): ");
-                ProductView.toonProduct(getKeus());
-                keuzeMenu("-> Typ 5 om het programma af te sluiten.");
+                ProductView.toonProduct(getInt());
+                keuzeMenu(keuze);
             }
             case 44 -> {
                 System.out.print("\nTYP DE ART. CODE (druk op enter): ");
-                int artCode = getKeus();
+                int artCode = getInt();
                 System.out.print("\nPAS HET AANTAL AAN: ");
-                int aantal = getKeus();
+                int aantal = getInt();
                 BestelregelRepository repo = new BestelregelRepository();
                 repo.updateAantal(state, artCode, aantal);
                 BestelregelView.toonRegelsVanBestelling(state);
-                keuzeMenu("-> Typ 4 om een Product te tonen.\n-> Typ 44 om het aantal aan te passen.");
+                keuzeMenu(keuze);
             }
-            case 5 -> System.out.println("PROGRAMMA IS BEËINDIGD!");
             default -> System.out.println("Ongeldige keuze. Kies een getal uit de lijst.");
         };
     }

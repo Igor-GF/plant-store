@@ -3,7 +3,6 @@ package repository;
 import model.Plant;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public final class PlantRepository extends Repository<Plant> {
     private static final String query = "select * from planten";

@@ -8,6 +8,8 @@ import java.util.List;
 public abstract class Repository<T> implements ParseInterface {
     protected List<T> lijst = new ArrayList<>();
 
+    { setRepository(); }
+
     protected ArrayList<T> setList(String query) {
         List<String[]> dataSet = DerbyConnection.getRows(query);
         ArrayList<T> lijst = new ArrayList<>();
