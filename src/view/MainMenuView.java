@@ -11,7 +11,6 @@ public final class MainMenuView {
 
     private static int stateScherm = 1;
     private static int stateChoice = 0;
-    private static int stateSecChoice = 0;
 
     public static void toonWelkomScherm() {
         System.out.print("\n=======================================================");
@@ -121,7 +120,7 @@ public final class MainMenuView {
                 opties.add(3);
                 opties.add(33);
             }
-            case 3 -> {
+            case 3, 44 -> {
                 System.out.print("\nTyp 2 -> Bestellingen van een Leverancier. \nTyp 4 -> Product te tonen.\nTyp 44 -> Aantal aanpassen.");
                 opties.add(2);
                 opties.add(4);
@@ -134,11 +133,6 @@ public final class MainMenuView {
             case 4 -> {
                 System.out.print("\nTyp 3 -> Bestelregels van een Bestelling. \nTyp 44 -> Aantal aanpassen bij de bestelregel " + stateChoice);
                 opties.add(3);
-                opties.add(44);
-            }
-            case 44 -> {
-                System.out.print("\nTyp 4 -> Product tonen.\nTyp 44 -> Het aantal aanpassen.");
-                opties.add(4);
                 opties.add(44);
             }
         }
