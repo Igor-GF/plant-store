@@ -1,6 +1,7 @@
 package repository;
 
 import databaseAccess.DerbyConnection;
+import excepition.WaardeNietGevondenException;
 import model.Bestelregel;
 
 import java.util.ArrayList;
@@ -15,17 +16,21 @@ public class BestelregelRepository extends Repository<Bestelregel> {
         this.lijst.addAll(list);
     }
 
-    public List<Bestelregel> getRegelsByBestelNr(int bestelNr) {
+    public List<Bestelregel> getRegelsByBestelNr(int bestelNr) throws WaardeNietGevondenException {
         ArrayList<Bestelregel> regelsVanBestelling = new ArrayList<>();
 
         setRepository();
+        if (this.lijst.stream().noneMatch(br -> br.getBestelNr() == bestelNr)) {
+            throw new WaardeNietGevondenException("Bestel nummer " + bestelNr + " bestaat niet of heeft GEEN bestelregels. ");
+        }
+
         for (Bestelregel b: this.lijst) {
             if (b.getBestelNr() == bestelNr) regelsVanBestelling.add(b);
         }
-        return regelsVanBestelling.size() > 0 ? regelsVanBestelling : null;
+        return regelsVanBestelling;
     }
 
-    public Bestelregel getRegel(int bestelNr, int artCode) {
+    public Bestelregel getRegel(int bestelNr, int artCode) throws WaardeNietGevondenException {
         setRepository();
         List<Bestelregel> regelsByBestelNr = getRegelsByBestelNr(bestelNr);
         return regelsByBestelNr.stream()

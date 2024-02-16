@@ -1,6 +1,7 @@
 package model;
 
 import enums.BestelStatus;
+import excepition.WaardeNietGevondenException;
 import repository.BestelregelRepository;
 
 import java.time.LocalDate;
@@ -83,9 +84,15 @@ public class Bestelling {
 
     public void setRegels() {
         BestelregelRepository regelsRepo = new BestelregelRepository();
-        List<Bestelregel> regelsUitRepo = regelsRepo.getRegelsByBestelNr(this.bestelNr);
+        List<Bestelregel> regelsUitRepo = new ArrayList<>();
+        try {
+            regelsUitRepo = regelsRepo.getRegelsByBestelNr(this.bestelNr);
+        } catch(WaardeNietGevondenException e) {
+            System.out.println(e.getMessage());
+        }
         if (regelsUitRepo.size() > 0) this.regels.addAll(regelsUitRepo);
     }
+
     public void addRegel(Bestelregel regel) {
         this.regels.add(regel);
     }

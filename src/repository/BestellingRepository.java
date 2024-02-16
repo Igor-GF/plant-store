@@ -2,6 +2,7 @@ package repository;
 
 import databaseAccess.DerbyConnection;
 import enums.BestelStatus;
+import excepition.WaardeNietGevondenException;
 import model.Bestelling;
 
 import java.util.ArrayList;
@@ -17,14 +18,18 @@ public class BestellingRepository extends Repository<Bestelling> {
         this.lijst.addAll(list);
     }
 
-    public List<Bestelling> getBestellingenByLevCode(int levCode) {
+    public List<Bestelling> getBestellingenByLevCode(int levCode) throws WaardeNietGevondenException {
         ArrayList<Bestelling> bestellingenVanLeverancier = new ArrayList<>();
 
         setRepository();
-        for (Bestelling b: this.lijst) {
+        if (this.lijst.stream().noneMatch(lev -> lev.getLevCode() == levCode)) {
+            throw new WaardeNietGevondenException("Leverancier " + levCode + " bestaat niet of heeft GEEN bestellingen. ");
+        }
+
+        for (Bestelling b : this.lijst) {
             if (levCode == b.getLevCode()) bestellingenVanLeverancier.add(b);
         }
-        return bestellingenVanLeverancier.size() > 0 ? bestellingenVanLeverancier : null;
+        return bestellingenVanLeverancier;
     }
 
     public Bestelling getBestelling(int bestelNr) {

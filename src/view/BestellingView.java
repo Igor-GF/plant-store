@@ -1,5 +1,6 @@
 package view;
 
+import excepition.WaardeNietGevondenException;
 import model.Bestelling;
 import repository.BestellingRepository;
 import repository.LeverancierRepository;
@@ -9,21 +10,15 @@ import java.util.List;
 public class BestellingView {
     private static final BestellingRepository repo = new BestellingRepository();
 
-    public static void toonBestellingenVanLeverancier(int levCode) {
+    public static void toonBestellingenVanLeverancier(int levCode) throws WaardeNietGevondenException {
         List<Bestelling> bestellingen = repo.getBestellingenByLevCode(levCode);
 
-        if (bestellingen == null) {
-            System.out.println("LEVERANCIER CODE " + levCode + " HEEFT GEEN BESTELLINGEN.");
-        } else {
-            System.out.println();
-            System.out.println("OVERZICHT: Bestellingen van leverancier: " + levCode);
-            System.out.println("---------------------------------------------------");
-            toonHoofding();
+        System.out.println();
+        System.out.println("OVERZICHT: Bestellingen van leverancier: " + levCode);
+        System.out.println("---------------------------------------------------");
+        toonHoofding();
 
-            for (Bestelling b: bestellingen) {
-                toonBestelling(b);
-            }
-        }
+        for (Bestelling b: bestellingen) toonBestelling(b);
     }
 
     public static void toonBestelling(Bestelling b) {

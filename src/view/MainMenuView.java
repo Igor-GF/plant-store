@@ -19,7 +19,12 @@ public final class MainMenuView {
         System.out.print("\n=======================================================");
         System.out.println();
 
-        toonSchermContent(stateScherm);
+        try {
+            toonSchermContent(stateScherm);
+        } catch(WaardeNietGevondenException e) {
+            System.out.println(e.getMessage() + " Applicatie is niet goed opgeladen! Herstarten ...");
+            toonWelkomScherm();
+        }
     }
 
     private static int getKeus() {
@@ -47,7 +52,7 @@ public final class MainMenuView {
         return sc.nextLine();
     }
 
-    private static void toonSchermContent(int keuze) {
+    private static void toonSchermContent(int keuze) throws WaardeNietGevondenException {
 
         switch (keuze) {
             case 0 -> System.out.println("\nPROGRAMMA IS BEËINDIGD!");
@@ -96,7 +101,7 @@ public final class MainMenuView {
         };
     }
 
-    private static void toonBottomMenu(int keuze) {
+    private static void toonBottomMenu(int keuze) throws WaardeNietGevondenException {
         System.out.print("\n=======================================================");
         stateScherm = keuze;
         ArrayList<Integer> opties = new ArrayList<>();
@@ -140,12 +145,12 @@ public final class MainMenuView {
         System.out.print("\nTyp 0 -> Het programma afsluiten.");
 
         System.out.print("\n-> ");
+        int tempKeuze = getKeus();
         try {
-            int tempKeuze = getKeus();
             if (controleerSubMenuOpties(tempKeuze, opties)) toonSchermContent(stateScherm = tempKeuze);
         } catch(WaardeNietGevondenException e) {
-            System.out.println(e.getMessage() + "U moet een getal uit de lijst kiezen. Probeer opnieuw:");
-            toonSchermContent(stateScherm);
+            System.out.println(e.getMessage() + "Probeer opnieuw:");
+            toonSchermContent(keuze);
         }
 
         opties.clear();
@@ -153,6 +158,6 @@ public final class MainMenuView {
 
     private static boolean controleerSubMenuOpties(int keuze, ArrayList<Integer> opties) throws WaardeNietGevondenException {
         if (opties.stream().anyMatch(k -> k == keuze)) return true;
-        else throw new WaardeNietGevondenException("Ongeldige waarde! ");
+        else throw new WaardeNietGevondenException("Ongeldige waarde! Kies een getal uit het onderste menu. ");
     }
 }
