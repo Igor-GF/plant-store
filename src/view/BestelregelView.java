@@ -21,7 +21,7 @@ public final class BestelregelView {
         for (Bestelregel r: bestelregels) toonRegel(r);
     }
 
-    private static void toonRegel(Bestelregel r) {
+    private static void toonRegel(Bestelregel r) throws WaardeNietGevondenException {
         ProductRepository productRepo = new ProductRepository();
         System.out.printf(
                 "\n%1$-8s  %2$-8d  %3$-12s  %4$8d  %5$8.2f",

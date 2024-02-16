@@ -1,5 +1,6 @@
 package repository;
 
+import excepition.WaardeNietGevondenException;
 import model.Plant;
 import model.Product;
 import model.Toebehoren;
@@ -26,8 +27,12 @@ public class ProductRepository {
             .forEach(producten::add);
     }
 
-    public Product getProduct(int artCode) {
+    public Product getProduct(int artCode) throws WaardeNietGevondenException {
         if (producten.size() == 0) setRepository();
+
+        if (producten.stream().noneMatch(p -> p.getArtCode() == artCode)) {
+            throw new WaardeNietGevondenException("Er is GEEN product met Art. code " + artCode + ". ");
+        }
 
         return producten.stream()
                 .filter(p -> p.getArtCode() == artCode)
