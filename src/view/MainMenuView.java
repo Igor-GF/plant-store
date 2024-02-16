@@ -26,16 +26,6 @@ public final class MainMenuView {
         }
     }
 
-    private static int getKeus() {
-        Scanner sc = new Scanner(System.in);
-        try {
-            return Integer.parseInt(sc.nextLine());
-        } catch (NumberFormatException e) {
-            System.out.printf(e.getMessage() + " terug naar Leveranciers ... \n");
-        }
-        return stateScherm;
-    }
-
     private static int getInt() {
         Scanner sc = new Scanner(System.in);
         try {
@@ -121,7 +111,7 @@ public final class MainMenuView {
                 opties.add(33);
             }
             case 3, 44 -> {
-                System.out.print("\nTyp 2 -> Bestellingen van een Leverancier. \nTyp 4 -> Product te tonen.\nTyp 44 -> Aantal aanpassen.");
+                System.out.print("\nTyp 2 -> Bestellingen van een Leverancier. \nTyp 4 -> Product te tonen. \nTyp 44 -> Aantal aanpassen.");
                 opties.add(2);
                 opties.add(4);
                 opties.add(44);
@@ -139,7 +129,7 @@ public final class MainMenuView {
         System.out.print("\nTyp 0 -> Het programma afsluiten.");
 
         System.out.print("\n-> ");
-        int tempKeuze = getKeus();
+        int tempKeuze = getInt();
         try {
             if (controleerSubMenuOpties(tempKeuze, opties)) toonSchermContent(stateScherm = tempKeuze);
         } catch(WaardeNietGevondenException e) {
